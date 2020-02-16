@@ -11,6 +11,7 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
 
@@ -159,9 +160,7 @@ public class QrUtils {
             hints.put(DecodeHintType.POSSIBLE_FORMATS, BarcodeFormat.QR_CODE);
             PlanarYUVLuminanceSource source =
                     new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
-
-            BinaryBitmap bitmap1 = new BinaryBitmap(new GlobalHistogramBinarizer(source));
-            // BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
+            BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
             QRCodeReader reader2 = new QRCodeReader();
             result = reader2.decode(bitmap1, hints);
         } catch (ReaderException e) {

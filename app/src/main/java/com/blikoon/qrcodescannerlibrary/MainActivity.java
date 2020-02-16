@@ -1,5 +1,6 @@
 package com.blikoon.qrcodescannerlibrary;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blikoon.qrcodescanner.QrCodeActivity;
+import com.blikoon.qrcodescanner.grant.PermissionsManager;
+import com.blikoon.qrcodescanner.grant.PermissionsResultAction;
 
 public class MainActivity extends AppCompatActivity {
     private EditText mProtocalEditText;
@@ -55,8 +58,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Start the qr scan activity
-                Intent i = new Intent(MainActivity.this,QrCodeActivity.class);
-                startActivityForResult( i,REQUEST_CODE_QR_SCAN);
+
+                PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(MainActivity.this , new String[]{
+                        Manifest.permission.CAMERA}, new PermissionsResultAction() {
+                    @Override
+                    public void onGranted() {
+                        Intent i = new Intent(MainActivity.this,QrCodeActivity.class);
+                        startActivityForResult( i,REQUEST_CODE_QR_SCAN);
+                    }
+
+                    @Override
+                    public void onDenied(String permission) {
+                        Toast.makeText(MainActivity.this,"需要相机权限",Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
         });
 
@@ -96,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 return ;
             }
 
+            Log.d("wyc",result);
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("Scan Error");
             alertDialog.setMessage("QR Code could not be scanned");
@@ -120,4 +137,10 @@ public class MainActivity extends AppCompatActivity {
             mProtocalEditText.setText(result);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(this, permissions, grantResults);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.blikoon.qrcodescanner;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blikoon.qrcodescanner.grant.PermissionsManager;
+import com.blikoon.qrcodescanner.grant.PermissionsResultAction;
 import com.google.zxing.Result;
 import com.blikoon.qrcodescanner.camera.CameraManager;
 import com.blikoon.qrcodescanner.decode.CaptureActivityHandler;
@@ -296,21 +299,31 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.qr_code_iv_flash_light)
-        {
+        if (v.getId() == R.id.qr_code_iv_flash_light) {
             if (mNeedFlashLightOpen) {
-                    turnFlashlightOn();
-                } else {
-                    turnFlashLightOff();
-                }
+                turnFlashlightOn();
+            } else {
+                turnFlashLightOff();
+            }
 
-        }else if(v.getId() == R.id.qr_code_header_black_pic)
-        {
-            if (!hasCameraPermission()) {
-                    mDecodeManager.showPermissionDeniedDialog(this);
-                } else {
-                    openSystemAlbum();
-                }
+        } else if (v.getId() == R.id.qr_code_header_black_pic) {
+            if (!PermissionsManager.getInstance().hasPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(this , new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE}, new PermissionsResultAction() {
+                    @Override
+                    public void onGranted() {
+                        openSystemAlbum();
+                    }
+
+                    @Override
+                    public void onDenied(String permission) {
+                        Toast.makeText(QrCodeActivity.this,"需要文件读取权限",Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            } else {
+                openSystemAlbum();
+            }
 
         }
 
@@ -368,6 +381,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             case REQUEST_SYSTEM_PICTURE:
                 Uri uri = data.getData();
                 String imgPath = getPathFromUri(uri);
+                Log.d("wyc",imgPath);
                 if (imgPath!=null && !TextUtils.isEmpty(imgPath) &&null != mQrCodeExecutor)
                 {
                     mQrCodeExecutor.execute(new DecodeImageThread(imgPath, mDecodeImageCallback));
@@ -390,6 +404,11 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
         return path;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(this, permissions, grantResults);
     }
 
     private DecodeImageCallback mDecodeImageCallback = new DecodeImageCallback() {
