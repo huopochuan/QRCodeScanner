@@ -381,7 +381,6 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             case REQUEST_SYSTEM_PICTURE:
                 Uri uri = data.getData();
                 String imgPath = getPathFromUri(uri);
-                Log.d("wyc",imgPath);
                 if (imgPath!=null && !TextUtils.isEmpty(imgPath) &&null != mQrCodeExecutor)
                 {
                     mQrCodeExecutor.execute(new DecodeImageThread(imgPath, mDecodeImageCallback));

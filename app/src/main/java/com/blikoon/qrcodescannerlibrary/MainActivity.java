@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 return ;
             }
 
-            Log.d("wyc",result);
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("Scan Error");
             alertDialog.setMessage("QR Code could not be scanned");
