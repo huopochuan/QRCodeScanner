@@ -12,7 +12,7 @@ import com.blikoon.qrcodescanner.R;
 public class DecodeManager {
 
     public void showPermissionDeniedDialog(Context context) {
-        Log.e("DecodeManager", "Permissions not granted");
+//        Log.e("DecodeManager", "Permissions not granted");
         
         new AlertDialog.Builder(context).setTitle(R.string.qr_code_notification)
                 .setMessage(R.string.qr_code_camera_not_open)
