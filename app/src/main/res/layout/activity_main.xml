@@ -19,6 +19,7 @@
         android:id="@+id/protocal_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="5"
         android:hint="扫描或复制跳转协议"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
