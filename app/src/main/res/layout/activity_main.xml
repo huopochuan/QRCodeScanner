@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.blikoon.qrcodescannerlibrary.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/button_start_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="二维码扫描"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/protocal_textview"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:hint="扫描或复制跳转协议"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_start_scan" />
+        android:layout_height="match_parent"
+        tools:context="com.blikoon.qrcodescannerlibrary.MainActivity">
 
-    <Button
-        android:id="@+id/jump_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="协议跳转"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/protocal_textview" />
+        <Button
+            android:id="@+id/button_start_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="二维码扫描"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/protocal_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="扫描或复制跳转协议"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_scan" />
+
+        <Button
+            android:id="@+id/jump_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="协议跳转"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/protocal_textview" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
